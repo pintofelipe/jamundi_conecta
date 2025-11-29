@@ -174,18 +174,29 @@ def consolidar_datos_jamundi() -> pd.DataFrame:
         df_api_renamed = df_api.rename(columns={'no_de_accesos': 'accesos'})
         
         # Seleccionar columnas comunes
-        columnas_comunes = ['anno', 'trimestre', 'proveedor', 'municipio', 'segmento', 
-                           'tecnologia', 'velocidad_bajada', 'velocidad_subida', 'accesos']
+        columnas_comunes = [
+            'anno', 'trimestre', 'proveedor', 'municipio', 'segmento',
+            'tecnologia', 'velocidad_bajada', 'velocidad_subida', 'accesos'
+        ]
+        
+        # 👇 NUEVO: si no hay datos locales, crear un DF vacío con esas columnas
+        if df_local is None or df_local.empty:
+            print("⚠️ No hay datos locales, usando solo datos de API para el consolidado")
+            df_local = pd.DataFrame(columns=columnas_comunes)
         
         # Combinar datasets
-        df_consolidado = pd.concat([
-            df_local[columnas_comunes],
-            df_api_renamed[columnas_comunes]
-        ], ignore_index=True)
+        df_consolidado = pd.concat(
+            [
+                df_local[columnas_comunes],
+                df_api_renamed[columnas_comunes]
+            ],
+            ignore_index=True
+        )
         
         # Eliminar duplicados
         df_consolidado = df_consolidado.drop_duplicates()
     else:
+        # Si no hay datos de API, usar solo los locales (podría estar vacío también)
         df_consolidado = df_local
     
     print(f"✅ Datos consolidados: {len(df_consolidado)} registros totales")
