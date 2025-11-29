@@ -179,7 +179,7 @@ def consolidar_datos_jamundi() -> pd.DataFrame:
             'tecnologia', 'velocidad_bajada', 'velocidad_subida', 'accesos'
         ]
         
-        # 👇 NUEVO: si no hay datos locales, crear un DF vacío con esas columnas
+        # Si no hay datos locales, crear un DF vacío con esas columnas
         if df_local is None or df_local.empty:
             print("⚠️ No hay datos locales, usando solo datos de API para el consolidado")
             df_local = pd.DataFrame(columns=columnas_comunes)
@@ -193,14 +193,26 @@ def consolidar_datos_jamundi() -> pd.DataFrame:
             ignore_index=True
         )
         
+        # 🔧 Asegurar tipos numéricos
+        df_consolidado['accesos'] = pd.to_numeric(
+            df_consolidado['accesos'], errors='coerce'
+        ).fillna(0).astype(int)
+        df_consolidado['velocidad_bajada'] = pd.to_numeric(
+            df_consolidado['velocidad_bajada'], errors='coerce'
+        )
+        df_consolidado['velocidad_subida'] = pd.to_numeric(
+            df_consolidado['velocidad_subida'], errors='coerce'
+        )
+        
         # Eliminar duplicados
         df_consolidado = df_consolidado.drop_duplicates()
     else:
-        # Si no hay datos de API, usar solo los locales (podría estar vacío también)
+        # Si no hay datos de API, usar solo los locales (podrían estar vacíos)
         df_consolidado = df_local
     
     print(f"✅ Datos consolidados: {len(df_consolidado)} registros totales")
     return df_consolidado
+
 
 
 def crear_datos_zonas_simulados() -> pd.DataFrame:
