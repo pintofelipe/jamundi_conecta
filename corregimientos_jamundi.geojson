@@ -1,0 +1,257 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Cabecera Municipal",
+        "tipo": "Urbana",
+        "codigo": "76364001"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.55, 3.25],
+          [-76.52, 3.25],
+          [-76.52, 3.28],
+          [-76.55, 3.28],
+          [-76.55, 3.25]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Potrerito",
+        "tipo": "Rural",
+        "codigo": "76364002"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.62, 3.32],
+          [-76.58, 3.32],
+          [-76.58, 3.35],
+          [-76.62, 3.35],
+          [-76.62, 3.32]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "San Antonio",
+        "tipo": "Rural",
+        "codigo": "76364003"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.60, 3.29],
+          [-76.56, 3.29],
+          [-76.56, 3.32],
+          [-76.60, 3.32],
+          [-76.60, 3.29]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Villa Colombia",
+        "tipo": "Rural",
+        "codigo": "76364004"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.58, 3.26],
+          [-76.54, 3.26],
+          [-76.54, 3.29],
+          [-76.58, 3.29],
+          [-76.58, 3.26]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "La Liberia",
+        "tipo": "Rural",
+        "codigo": "76364005"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.64, 3.35],
+          [-76.60, 3.35],
+          [-76.60, 3.38],
+          [-76.64, 3.38],
+          [-76.64, 3.35]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bocas del Palo",
+        "tipo": "Rural",
+        "codigo": "76364006"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.56, 3.23],
+          [-76.52, 3.23],
+          [-76.52, 3.26],
+          [-76.56, 3.26],
+          [-76.56, 3.23]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Chagres",
+        "tipo": "Rural",
+        "codigo": "76364007"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.54, 3.20],
+          [-76.50, 3.20],
+          [-76.50, 3.23],
+          [-76.54, 3.23],
+          [-76.54, 3.20]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "El Hormiguero",
+        "tipo": "Rural",
+        "codigo": "76364008"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.58, 3.35],
+          [-76.54, 3.35],
+          [-76.54, 3.38],
+          [-76.58, 3.38],
+          [-76.58, 3.35]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Guanabanal",
+        "tipo": "Rural",
+        "codigo": "76364009"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.52, 3.29],
+          [-76.48, 3.29],
+          [-76.48, 3.32],
+          [-76.52, 3.32],
+          [-76.52, 3.29]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Quinamayó",
+        "tipo": "Rural",
+        "codigo": "76364010"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.50, 3.32],
+          [-76.46, 3.32],
+          [-76.46, 3.35],
+          [-76.50, 3.35],
+          [-76.50, 3.32]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Robles",
+        "tipo": "Rural",
+        "codigo": "76364011"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.54, 3.32],
+          [-76.50, 3.32],
+          [-76.50, 3.35],
+          [-76.54, 3.35],
+          [-76.54, 3.32]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Timba",
+        "tipo": "Rural",
+        "codigo": "76364012"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.56, 3.17],
+          [-76.52, 3.17],
+          [-76.52, 3.20],
+          [-76.56, 3.20],
+          [-76.56, 3.17]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Yurumanguí",
+        "tipo": "Rural",
+        "codigo": "76364013"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.48, 3.26],
+          [-76.44, 3.26],
+          [-76.44, 3.29],
+          [-76.48, 3.29],
+          [-76.48, 3.26]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Zamorano",
+        "tipo": "Rural",
+        "codigo": "76364014"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-76.50, 3.23],
+          [-76.46, 3.23],
+          [-76.46, 3.26],
+          [-76.50, 3.26],
+          [-76.50, 3.23]
+        ]]
+      }
+    }
+  ]
+}
