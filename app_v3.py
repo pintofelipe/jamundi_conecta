@@ -168,6 +168,16 @@ st.markdown("""
             margin-bottom: 10px;
         }
     }
+    
+    /* Ocultar scrollbar del sidebar */
+    section[data-testid="stSidebar"] > div {
+        overflow-y: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+    }
+    section[data-testid="stSidebar"] > div::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -205,22 +215,20 @@ if 'mostrar_panel_alertas' not in st.session_state:
 # ENCABEZADO PRINCIPAL
 # ============================================================================
 
-col_titulo, col_alertas = st.columns([4, 1])
-
-with col_titulo:
-    st.markdown('<div class="main-header">🌐 Jamundí Conectada V3</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Sistema Inteligente de Priorización de Infraestructura Digital (SIPID)</div>', unsafe_allow_html=True)
-
-with col_alertas:
-    st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("🔔 Ver Alertas", use_container_width=True):
-        st.session_state.mostrar_panel_alertas = not st.session_state.mostrar_panel_alertas
+# Título centrado sin versión
+st.markdown('<div class="main-header">🌐 Jamundí Conectada</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Sistema Inteligente de Priorización de Infraestructura Digital (SIPID)</div>', unsafe_allow_html=True)
 
 # ============================================================================
 # BARRA LATERAL - FILTROS Y BÚSQUEDA
 # ============================================================================
 
-st.sidebar.title("🎛️ Panel de Control")
+st.sidebar.title("🏛️ Panel de Control")
+
+# Botón de alertas en el sidebar
+if st.sidebar.button("🔔 Ver Alertas", use_container_width=True, type="primary"):
+    st.session_state.mostrar_panel_alertas = not st.session_state.mostrar_panel_alertas
+
 st.sidebar.markdown("---")
 
 # ============================================================================
@@ -250,7 +258,7 @@ st.sidebar.markdown("---")
 # FILTRO 1: ZONAS/CORREGIMIENTOS (CON CHECKBOXES)
 # ============================================================================
 
-with st.sidebar.expander("📍 Filtrar por Zonas/Corregimientos", expanded=True):
+with st.sidebar.expander("📍 Filtrar por Zonas/Corregimientos", expanded=False):
     st.markdown("**Selecciona las zonas a visualizar:**")
     
     # Opción de seleccionar/deseleccionar todas
@@ -299,7 +307,7 @@ with st.sidebar.expander("📍 Filtrar por Zonas/Corregimientos", expanded=True)
 # FILTRO 2: NIVEL DE PRIORIDAD (CON CHECKBOXES)
 # ============================================================================
 
-with st.sidebar.expander("🎯 Filtrar por Nivel de Prioridad", expanded=True):
+with st.sidebar.expander("🎯 Filtrar por Nivel de Prioridad", expanded=False):
     st.markdown("**Selecciona los niveles a visualizar:**")
     
     # Inicializar estado si no existe
@@ -336,8 +344,8 @@ with st.sidebar.expander("🎯 Filtrar por Nivel de Prioridad", expanded=True):
 
 st.sidebar.markdown("---")
 
-# Información de filtros aplicados
-st.sidebar.info(f"""
+# Información de filtros aplicados (sin recuadro azul)
+st.sidebar.markdown(f"""
 **Filtros Activos:**
 - Zonas: {len(st.session_state.zonas_seleccionadas)} de {len(df_zonas_ranked)}
 - Niveles: {len(st.session_state.niveles_seleccionados)} de 3
@@ -585,9 +593,9 @@ with tab1:
                 
                 st.markdown(f"""
                 <div class="zona-card">
-                    <h3>{zona_data['zona']}</h3>
+                    <h3 style="color: #000;">{zona_data['zona']}</h3>
                     <span class="{badge_class}">{nivel}</span>
-                    <p style="margin-top: 10px; color: #666;">Ranking: #{int(zona_data['ranking'])}</p>
+                    <p style="margin-top: 10px; color: #000; font-weight: 500;">Ranking: #{int(zona_data['ranking'])}</p>
                 </div>
                 """, unsafe_allow_html=True)
                 
@@ -620,49 +628,54 @@ with tab1:
                     st.metric("🎯 Puntaje", f"{zona_data['puntaje_prioridad']:.3f}")
                     st.metric("📡 Penetración", f"{zona_data['penetracion_internet']*100:.1f}%")
                 
-                st.markdown("---")
-                
-                # Tabs para organizar gráficos
-                tab_graficos = st.tabs(["📊 Componentes", "📈 Evolución", "🎯 Comparación", "🔧 Tecnologías", "📡 Radar", "🎯 Meta"])
-                
-                with tab_graficos[0]:
-                    fig_comp = crear_grafico_barras_componentes_detallado(zona_data)
-                    st.plotly_chart(fig_comp, use_container_width=True)
-                
-                with tab_graficos[1]:
-                    fig_evol = crear_grafico_evolucion_zona(zona_data['zona'], df_conectividad)
-                    st.plotly_chart(fig_evol, use_container_width=True)
-                
-                with tab_graficos[2]:
-                    fig_comp_zonas = crear_grafico_comparacion_zonas_similares(zona_data, df_zonas_filtrado)
-                    st.plotly_chart(fig_comp_zonas, use_container_width=True)
-                
-                with tab_graficos[3]:
-                    fig_tech = crear_grafico_distribucion_tecnologias_zona(zona_data['zona'], df_conectividad)
-                    st.plotly_chart(fig_tech, use_container_width=True)
-                
-                with tab_graficos[4]:
-                    fig_radar = crear_grafico_radar_metricas(zona_data, df_zonas_filtrado)
-                    st.plotly_chart(fig_radar, use_container_width=True)
-                
-                with tab_graficos[5]:
-                    fig_meta = crear_indicador_progreso_meta(zona_data, meta_velocidad=25)
-                    st.plotly_chart(fig_meta, use_container_width=True)
-                
-                st.markdown("---")
-                
-                # Información adicional
-                st.markdown("### ℹ️ Información Adicional")
-                
-                st.info(f"""
-                **Tipo:** {zona_data['tipo']}  
-                **Sede Educativa:** {'Sí' if zona_data['tiene_sede_educativa'] else 'No'}  
-                **Sede Conectada:** {'Sí' if zona_data['sede_con_conexion'] else 'No'}  
-                **Densidad:** {zona_data['densidad_poblacion']:.2f} hab/km²
-                """)
-                
             else:
                 st.info("👆 Selecciona un corregimiento en el mapa o en el selector para ver información detallada.")
+        
+        # Gráficos en sección amplia (fuera del col_panel)
+        if st.session_state.zona_seleccionada and st.session_state.zona_seleccionada in df_zonas_filtrado['zona'].values:
+            zona_data = df_zonas_filtrado[df_zonas_filtrado['zona'] == st.session_state.zona_seleccionada].iloc[0]
+            
+            st.markdown("---")
+            st.markdown(f"### 📈 Análisis Detallado: {st.session_state.zona_seleccionada}")
+            
+            # Tabs para organizar gráficos en espacio amplio
+            tab_graficos = st.tabs(["📊 Componentes", "📈 Evolución", "🎯 Comparación", "🔧 Tecnologías", "📡 Radar", "🎯 Meta"])
+            
+            with tab_graficos[0]:
+                fig_comp = crear_grafico_barras_componentes_detallado(zona_data)
+                st.plotly_chart(fig_comp, use_container_width=True, config={'displayModeBar': False})
+            
+            with tab_graficos[1]:
+                fig_evol = crear_grafico_evolucion_zona(zona_data['zona'], df_conectividad)
+                st.plotly_chart(fig_evol, use_container_width=True, config={'displayModeBar': False})
+            
+            with tab_graficos[2]:
+                fig_comp_zonas = crear_grafico_comparacion_zonas_similares(zona_data, df_zonas_filtrado)
+                st.plotly_chart(fig_comp_zonas, use_container_width=True, config={'displayModeBar': False})
+            
+            with tab_graficos[3]:
+                fig_tech = crear_grafico_distribucion_tecnologias_zona(zona_data['zona'], df_conectividad)
+                st.plotly_chart(fig_tech, use_container_width=True, config={'displayModeBar': False})
+            
+            with tab_graficos[4]:
+                fig_radar = crear_grafico_radar_metricas(zona_data, df_zonas_filtrado)
+                st.plotly_chart(fig_radar, use_container_width=True, config={'displayModeBar': False})
+            
+            with tab_graficos[5]:
+                fig_meta = crear_indicador_progreso_meta(zona_data, meta_velocidad=25)
+                st.plotly_chart(fig_meta, use_container_width=True, config={'displayModeBar': False})
+            
+            # Información adicional
+            st.markdown("---")
+            st.markdown("### ℹ️ Información Adicional")
+            
+            col_info1, col_info2 = st.columns(2)
+            with col_info1:
+                st.metric("🏙️ Tipo", zona_data['tipo'])
+                st.metric("🏫 Sede Educativa", 'Sí' if zona_data['tiene_sede_educativa'] else 'No')
+            with col_info2:
+                st.metric("📶 Sede Conectada", 'Sí' if zona_data['sede_con_conexion'] else 'No')
+                st.metric("📍 Densidad", f"{zona_data['densidad_poblacion']:.2f} hab/km²")
     else:
         st.warning("⚠️ No hay datos para mostrar con los filtros seleccionados.")
 
@@ -757,6 +770,16 @@ with tab3:
     **© 2025 | Datos oficiales de:**
     - **MinTIC Colombia** - Ministerio de Tecnologías de la Información y las Comunicaciones
     - **Alcaldía de Jamundí** - Gobierno Municipal
+    
+    ### 📜 Licencias y Actualización
+    
+    **Licencia de Datos:**
+    - Todos los datos utilizados en este proyecto están bajo la licencia [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/legalcode)
+    - Esta licencia permite compartir y adaptar el material para cualquier propósito, incluso comercialmente, siempre que se dé crédito apropiado y se distribuya bajo la misma licencia.
+    
+    **Última Actualización de Datos:**
+    - Fecha: Diciembre 2025
+    - Fuente: APIs de MinTIC Colombia y Alcaldía de Jamundí
     
     ### 📚 Referencias Bibliográficas
     
@@ -854,11 +877,20 @@ with tab4:
         # Botón de descarga
         csv_zonas = df_display_zonas.to_csv(index=False).encode('utf-8')
         st.download_button(
-            label="📥 Descargar Datos Filtrados (CSV)",
+            label="📅 Descargar Datos Filtrados (CSV)",
             data=csv_zonas,
             file_name=f"jamundi_zonas_filtradas_{datetime.now().strftime('%Y%m%d')}.csv",
             mime="text/csv"
         )
+        
+        # Disclaimer
+        st.markdown("---")
+        st.warning("""
+        ⚠️ **Descargo de Responsabilidad:**  
+        Los datos presentados en este dashboard provienen de fuentes oficiales (MinTIC Colombia y Alcaldía de Jamundí).  
+        No nos hacemos responsables por ningún uso indebido de esta información. El usuario es responsable de verificar  
+        la vigencia y exactitud de los datos antes de tomar decisiones basadas en ellos.
+        """)
     else:
         st.warning("⚠️ No hay datos para mostrar con los filtros seleccionados.")
 
@@ -869,7 +901,7 @@ with tab4:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: #666; padding: 2rem 0;'>
-    <p><strong>Dashboard Jamundí Conectada V3</strong> | Sistema Inteligente de Priorización de Infraestructura Digital (SIPID)</p>
+    <p><strong>Dashboard Jamundí Conectada</strong> | Sistema Inteligente de Priorización de Infraestructura Digital (SIPID)</p>
     <p>Desarrollado con ❤️ usando Streamlit, Pandas, Plotly y GeoPandas</p>
 
 </div>
